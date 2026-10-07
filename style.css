@@ -1,0 +1,340 @@
+BASIC SETTINGS */
+
+body {
+
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background-color: #eef6f7;
+
+    color: #333;
+
+}
+
+/* Hide pages */
+
+.hidden {
+
+    display: none;
+
+}
+
+/* BOX */
+
+.box {
+
+    width: 400px;
+
+    margin: 40px auto;
+
+    padding: 25px;
+
+    background-color: white;
+
+    border: 1px solid #ccc;
+
+}
+
+.box h1 {
+
+    text-align: center;
+
+    color: #287f86;
+
+}
+
+.box h2 {
+
+    text-align: center;
+
+    color: #287f86;
+
+}
+
+
+/* FORM */
+
+label {
+
+    display: block;
+
+    margin-top: 12px;
+
+    font-weight: bold;
+
+}
+
+input,
+select {
+
+    width: 100%;
+
+    padding: 9px;
+
+    margin-top: 5px;
+
+    box-sizing: border-box;
+
+}
+
+input[type="checkbox"] {
+
+    width: auto;
+
+}
+
+
+/* BUTTON */
+
+button {
+
+    padding: 9px 15px;
+
+    margin-top: 12px;
+
+    background-color: #287f86;
+
+    color: white;
+
+    border: none;
+
+    cursor: pointer;
+
+}
+
+button:hover {
+
+    background-color: #20666b;
+
+}
+
+
+/* ERROR */
+
+.error {
+
+    color: red;
+
+    font-size: 14px;
+
+}
+
+
+/* NAVIGATION */
+
+.navbar {
+
+    background-color: #287f86;
+
+    color: white;
+
+    padding: 15px;
+
+}
+
+.navbar b {
+
+    margin-right: 25px;
+
+}
+
+.navbar a {
+
+    color: white;
+
+    text-decoration: none;
+
+    margin-right: 15px;
+
+}
+
+
+/* DASHBOARD */
+
+.dashboard {
+
+    padding: 30px;
+
+}
+
+.dashboard h2 {
+
+    color: #287f86;
+
+}
+
+
+/* CARDS */
+
+.cards {
+
+    display: flex;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+}
+
+.card {
+
+    background-color: white;
+
+    width: 250px;
+
+    padding: 20px;
+
+    border: 1px solid #ccc;
+
+}
+
+.card h3 {
+
+    color: #287f86;
+
+}
+
+
+/* DOCTOR LIST */
+
+.doctorList {
+
+    margin-top: 20px;
+
+}
+
+.doctorBox {
+
+    background-color: white;
+
+    padding: 15px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #ccc;
+
+}
+
+
+/* TIME SLOTS */
+
+.timeSlots {
+
+    margin-top: 15px;
+
+}
+
+.timeButton {
+
+    margin: 5px;
+
+}
+
+.fullSlot {
+
+    background-color: #999;
+
+    cursor: not-allowed;
+
+}
+
+
+/* SYMPTOMS */
+
+.symptoms label {
+
+    font-weight: normal;
+
+    margin-top: 8px;
+
+}
+
+/* TABLE */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background-color: white;
+
+}
+
+th,
+td {
+
+    border: 1px solid #aaa;
+
+    padding: 10px;
+
+    text-align: center;
+
+}
+
+th {
+
+    background-color: #287f86;
+
+    color: white;
+
+}
+
+/* RECEIPT */
+
+.receipt {
+
+    width: 500px;
+
+    margin: 50px auto;
+
+    background-color: white;
+
+    padding: 30px;
+
+    border: 1px solid #aaa;
+
+}
+
+.receipt h1,
+.receipt h2 {
+
+    text-align: center;
+
+    color: #287f86;
+
+}
+
+.receipt p {
+
+    margin: 18px 0;
+
+}
+
+/* MOBILE */
+
+@media screen and (max-width: 600px) {
+
+    .box {
+
+        width: 80%;
+
+    }
+
+    .receipt {
+
+        width: 80%;
+
+    }
+
+    .navbar a {
+
+        display: inline-block;
+
+        margin-top: 10px;
+
+    }
+
+}
+

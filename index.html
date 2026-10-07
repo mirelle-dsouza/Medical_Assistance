@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Assistance</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #2c7a7b;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        nav button {
+            background-color: white;
+            color: #2c7a7b;
+            border: none;
+            padding: 9px 16px;
+            margin-left: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #2c7a7b;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        button.primary {
+            background-color: #2c7a7b;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        button.primary:hover {
+            background-color: #235f60;
+        }
+
+        button.secondary {
+            background-color: #777;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        .link-button {
+            background: none;
+            border: none;
+            color: #2c7a7b;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .symptoms {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .symptom-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+
+        .symptom-item input {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .recommendation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eef8f8;
+            border-left: 4px solid #2c7a7b;
+            display: none;
+        }
+
+        .recommendation p {
+            margin: 7px 0;
+        }
+
+        .success {
+            background-color: #e7f6e7;
+            border-left: 4px solid #3c8c40;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error {
+            color: #b00020;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .patient-info {
+            background-color: #eef8f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .receipt {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c7a7b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+
+            .symptoms {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>Medical Assistance</h1>
+
+    <nav id="mainNav">
+
+        <button onclick="showPage('loginPage')">
+            Login
+        </button>
+
+        <button onclick="showPage('registerPage')">
+            Register
+        </button>
+
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- ================= LOGIN ================= -->
+
+    <section id="loginPage" class="page active">
+
+        <div class="card">
+
+            <h2>Patient Login</h2>
+
+            <label for="loginName">
+                Login ID
+            </label>
+
+            <input
+                type="text"
+                id="loginName"
+                placeholder="Enter login ID"
+            >
+
+
+            <label for="loginPassword">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter password"
+            >
+
+
+            <button
+                class="primary"
+                onclick="loginPatient()"
+            >
+                Login
+            </button>
+
+
+            <p
+                id="loginError"
+                class="error"
+            ></p>
+
+
+            <p>
+                Don't have an account?
+
+                <button
+                    class="link-button"
+                    onclick="showPage('registerPage')"
+                >
+                    Register here
+                </button>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= REGISTRATION ================= -->
+
+    <section id="registerPage" class="page">
+
+        <div class="card">
+
+            <h2>Patient Registration</h2>
+
+
+            <label for="registerName">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Enter full name"
+            >
+
+
+            <label for="registerLogin">
+                Login ID
+            </label>
+
+            <input
+                type="text"
+                id="registerLogin"
+                placeholder="Create login ID"
+            >
+
+
+            <label for="registerPassword">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Create password"
+            >
+
+
+            <label for="registerEmail">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Enter email"
+            >
+
+
+            <label for="registerPhone">
+                Phone
+            </label>
+
+            <input
+                type="text"
+                id="registerPhone"
+                placeholder="Enter phone number"
+            >
+
+
+            <label for="familyName">
+                Emergency Contact Name
+            </label>
+
+            <input
+                type="text"
+                id="familyName"
+                placeholder="Enter emergency contact name"
+            >
+
+
+            <label for="familyPhone">
+                Emergency Contact Phone
+            </label>
+
+            <input
+                type="text"
+                id="familyPhone"
+                placeholder="Enter emergency contact phone"
+            >
+
+
+            <button
+                class="primary"
+                onclick="registerPatient()"
+            >
+                Register
+            </button>
+
+
+            <p
+                id="registerError"
+                class="error"
+            ></p>
+
+
+            <p>
+                Already registered?
+
+                <button
+                    class="link-button"
+                    onclick="showPage('loginPage')"
+                >
+                    Login here
+                </button>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section id="dashboardPage" class="page">
+
+        <div class="card">
+
+            <h2>
+                Patient Dashboard
+            </h2>
+
+
+            <div class="patient-info">
+
+                <p>
+                    <strong>Patient:</strong>
+
+                    <span id="dashboardPatientName">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>Email:</strong>
+
+                    <span id="dashboardPatientEmail">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>Phone:</strong>
+
+                    <span id="dashboardPatientPhone">
+                    </span>
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary"
+                onclick="showPage('appointmentPage')"
+            >
+                Book Appointment
+            </button>
+
+
+            <button
+                class="secondary"
+                onclick="showMyAppointment()"
+            >
+                My Appointment
+            </button>
+
+
+            <button
+                class="secondary"
+                onclick="logoutPatient()"
+            >
+                Logout
+            </button>
+
+
+            <div
+                id="myAppointment"
+                class="success"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= BOOK APPOINTMENT ================= -->
+
+    <section id="appointmentPage" class="page">
+
+        <div class="card">
+
+            <h2>
+                Book Appointment
+            </h2>
+
+
+            <div class="patient-info">
+
+                <p>
+                    <strong>Patient Name:</strong>
+
+                    <span id="appointmentPatientName">
+                    </span>
+                </p>
+
+            </div>
+
+
+            <h3>
+                Select Your Symptoms
+            </h3>
+
+
+            <div class="symptoms">
+
+
+                <label class="symptom-item">
+
+                    <input
+                        type="checkbox"
+                        name="symptom"
+                        value="1"
+                    >
+
+                    Headache
+
+                </label>
+
+
+                <label class="symptom-item">
+
+                    <input
+                        type="checkbox"
+                        name="symptom"
+                        value="2"
+                    >
+
+                    Fever
+
+                </label>
+
+
+                <label class="symptom-item">
+
+                    <input
+                        type="checkbox"
+                        name="symptom"
+                        value="3"
+                    >
+
+                    Cough
+
+                </label>
+
+
+                <label class="symptom-item">
+
+                    <input
+                        type="checkbox"
+                        name="symptom"
+                        value="4"
+                    >
+
+                    Cold
+
+                </label>
+
+
+                <label class="symptom-item">
+
+                    <input
+                        type="checkbox"
+                        name="symptom"
+                        value="5"
+                    >
+
+                    Stomach Pain
+
+                </label>
+
+
+                <label class="symptom-item">
+
+                    <input
+                        type="checkbox"
+                        name="symptom"
+                        value="6"
+                    >
+
+                    Vomiting
+
+                </label>
+
+
+                <label class="symptom-item">
+
+                    <input
+                        type="checkbox"
+                        name="symptom"
+                        value="7"
+                    >
+
+                    None of these
+
+                </label>
+
+            </div>
+
+
+            <button
+                class="primary"
+                onclick="findDoctor()"
+            >
+                Find Doctor
+            </button>
+
+
+            <!-- RECOMMENDATION -->
+
+            <div
+                id="recommendation"
+                class="recommendation"
+            >
+
+                <h3>
+                    Recommended Doctor
+                </h3>
+
+
+                <p>
+                    <strong>
+                        Specialist:
+                    </strong>
+
+                    <span
+                        id="recommendedSpecialist"
+                    ></span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Doctor:
+                    </strong>
+
+                    <span
+                        id="recommendedDoctor"
+                    ></span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Symptoms Matched:
+                    </strong>
+
+                    <span
+                        id="matchedSymptoms"
+                    ></span>
+                </p>
+
+            </div>
+
+
+            <!-- AVAILABLE SLOTS -->
+
+            <div
+                id="slotSection"
+                class="hidden"
+            >
+
+                <h3>
+                    Choose Appointment Slot
+                </h3>
+
+
+                <label for="slotSelect">
+                    Available Slot
+                </label>
+
+
+                <select id="slotSelect">
+
+                    <option value="">
+                        Select available slot
+                    </option>
+
+                </select>
+
+
+                <button
+                    class="primary"
+                    onclick="bookAppointment()"
+                >
+                    Book Appointment
+                </button>
+
+            </div>
+
+
+            <p
+                id="appointmentError"
+                class="error"
+            ></p>
+
+
+            <!-- BOOKING SUCCESS -->
+
+            <div
+                id="bookingSuccess"
+                class="success"
+            >
+
+                <h3>
+                    Appointment Booked Successfully
+                </h3>
+
+
+                <p>
+                    <strong>
+                        Doctor:
+                    </strong>
+
+                    <span
+                        id="successDoctor"
+                    ></span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Specialist:
+                    </strong>
+
+                    <span
+                        id="successSpecialist"
+                    ></span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Date:
+                    </strong>
+
+                    <span
+                        id="successDate"
+                    ></span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Time:
+                    </strong>
+
+                    <span
+                        id="successTime"
+                    ></span>
+                </p>
+
+
+                <p class="receipt">
+
+                    Receipt Number:
+
+                    <span
+                        id="successReceipt"
+                    ></span>
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="secondary"
+                onclick="showPage('dashboardPage')"
+            >
+                Back to Dashboard
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+
+    /* =====================================================
+       JAVA SERVER
+       ===================================================== */
+
+    var JAVA_SERVER =
+        "http://localhost:8080";
+
+
+    /* =====================================================
+       PAGE NAVIGATION
+       ===================================================== */
+
+    function showPage(pageId)
+    {
+        var pages =
+            document.querySelectorAll(".page");
+
+
+        for (
+            var i = 0;
+            i < pages.length;
+            i++
+        )
+        {
+            pages[i].classList.remove(
+                "active"
+            );
+        }
+
+
+        document
+            .getElementById(pageId)
+            .classList.add("active");
+
+
+        updatePatientInformation();
+
+
+        window.scrollTo(
+            0,
+            0
+        );
+    }
+
+
+    /* =====================================================
+       LOGIN
+       ===================================================== */
+
+    function loginPatient()
+    {
+        var loginName =
+            document.getElementById(
+                "loginName"
+            ).value.trim();
+
+
+        var password =
+            document.getElementById(
+                "loginPassword"
+            ).value;
+
+
+        var error =
+            document.getElementById(
+                "loginError"
+            );
+
+
+        error.style.display =
+            "none";
+
+
+        if (
+            loginName == "" ||
+            password == ""
+        )
+        {
+            error.innerText =
+                "Please enter login ID and password.";
+
+            error.style.display =
+                "block";
+
+            return;
+        }
+
+
+        error.innerText =
+            "Checking login details...";
+
+        error.style.display =
+            "block";
+
+
+        fetch(
+            JAVA_SERVER + "/loginPatient",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: loginName + "|" + password
+            }
+        )
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.error)
+            {
+                error.innerText =
+                    data.error;
+
+                error.style.display =
+                    "block";
+
+                return;
+            }
+
+
+            if (data.success)
+            {
+                localStorage.setItem(
+                    "loggedInPatient",
+                    JSON.stringify(data)
+                );
+
+
+                error.style.display =
+                    "none";
+
+
+                updatePatientInformation();
+
+
+                showPage(
+                    "dashboardPage"
+                );
+
+                return;
+            }
+
+
+            error.innerText =
+                "Invalid login ID or password.";
+
+            error.style.display =
+                "block";
+        })
+        .catch(function(errorObject)
+        {
+            console.log(errorObject);
+
+            error.innerText =
+                "Could not connect to the Java server. Make sure MedicalServer is running.";
+
+            error.style.display =
+                "block";
+        });
+    }
+
+
+    /* =====================================================
+       REGISTRATION - MYSQL
+       ===================================================== */
+
+    function registerPatient()
+    {
+        var name =
+            document.getElementById(
+                "registerName"
+            ).value.trim();
+
+
+        var loginName =
+            document.getElementById(
+                "registerLogin"
+            ).value.trim();
+
+
+        var password =
+            document.getElementById(
+                "registerPassword"
+            ).value;
+
+
+        var email =
+            document.getElementById(
+                "registerEmail"
+            ).value.trim();
+
+
+        var phone =
+            document.getElementById(
+                "registerPhone"
+            ).value.trim();
+
+
+        var familyName =
+            document.getElementById(
+                "familyName"
+            ).value.trim();
+
+
+        var familyPhone =
+            document.getElementById(
+                "familyPhone"
+            ).value.trim();
+
+
+        var error =
+            document.getElementById(
+                "registerError"
+            );
+
+
+        error.style.display =
+            "none";
+
+
+        if (
+            name == "" ||
+            loginName == "" ||
+            password == "" ||
+            email == "" ||
+            phone == ""
+        )
+        {
+            error.innerText =
+                "Please fill all required fields.";
+
+            error.style.display =
+                "block";
+
+            return;
+        }
+
+
+        /*
+         * Format expected by Java:
+         *
+         * name|loginId|password|email|phone|familyName|familyPhone
+         */
+
+
+        var registrationData =
+            name +
+            "|" +
+            loginName +
+            "|" +
+            password +
+            "|" +
+            email +
+            "|" +
+            phone +
+            "|" +
+            familyName +
+            "|" +
+            familyPhone;
+
+
+        /*
+         * Send registration to Java.
+         */
+
+        fetch(
+            JAVA_SERVER +
+            "/registerPatient",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "text/plain"
+                },
+
+                body:
+                    registrationData
+            }
+        )
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (
+                data.success == true
+            )
+            {
+                alert(
+                    "Registration successful!"
+                );
+
+
+                /*
+                 * Save the newly registered
+                 * patient locally so the
+                 * login page can use it.
+                 *
+                 * The real patient_id comes
+                 * from MySQL.
+                 */
+
+
+                var patients =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "patients"
+                        )
+                    );
+
+
+                if (
+                    patients == null
+                )
+                {
+                    patients = [];
+                }
+
+
+                var newPatient = {
+
+                    patient_id:
+                        data.patientId,
+
+                    name:
+                        name,
+
+                    loginName:
+                        loginName,
+
+                    password:
+                        password,
+
+                    email:
+                        email,
+
+                    phone:
+                        phone,
+
+                    familyName:
+                        familyName,
+
+                    familyPhone:
+                        familyPhone
+                };
+
+
+                patients.push(
+                    newPatient
+                );
+
+
+                localStorage.setItem(
+                    "patients",
+                    JSON.stringify(
+                        patients
+                    )
+                );
+
+
+                /*
+                 * Clear registration form.
+                 */
+
+                document.getElementById(
+                    "registerName"
+                ).value = "";
+
+
+                document.getElementById(
+                    "registerLogin"
+                ).value = "";
+
+
+                document.getElementById(
+                    "registerPassword"
+                ).value = "";
+
+
+                document.getElementById(
+                    "registerEmail"
+                ).value = "";
+
+
+                document.getElementById(
+                    "registerPhone"
+                ).value = "";
+
+
+                document.getElementById(
+                    "familyName"
+                ).value = "";
+
+
+                document.getElementById(
+                    "familyPhone"
+                ).value = "";
+
+
+                /*
+                 * Go to login.
+                 */
+
+                showPage(
+                    "loginPage"
+                );
+            }
+            else
+            {
+                error.innerText =
+                    data.error ||
+                    "Registration failed.";
+
+                error.style.display =
+                    "block";
+            }
+        })
+        .catch(function(err)
+        {
+            console.log(err);
+
+
+            error.innerText =
+                "Could not connect to the Java server. Make sure MedicalServer is running.";
+
+            error.style.display =
+                "block";
+        });
+    }
+
+
+    /* =====================================================
+       PATIENT INFORMATION
+       ===================================================== */
+
+    function updatePatientInformation()
+    {
+        var patient =
+            JSON.parse(
+                localStorage.getItem(
+                    "loggedInPatient"
+                )
+            );
+
+
+        if (
+            patient == null
+        )
+        {
+            return;
+        }
+
+
+        document.getElementById(
+            "dashboardPatientName"
+        ).innerText =
+            patient.name;
+
+
+        document.getElementById(
+            "dashboardPatientEmail"
+        ).innerText =
+            patient.email;
+
+
+        document.getElementById(
+            "dashboardPatientPhone"
+        ).innerText =
+            patient.phone;
+
+
+        document.getElementById(
+            "appointmentPatientName"
+        ).innerText =
+            patient.name;
+    }
+
+
+    /* =====================================================
+       FIND DOCTOR
+       ===================================================== */
+
+    function findDoctor()
+    {
+        clearAppointmentError();
+
+        hideBookingSuccess();
+
+
+        var selectedSymptoms =
+            document.querySelectorAll(
+                'input[name="symptom"]:checked'
+            );
+
+
+        if (
+            selectedSymptoms.length == 0
+        )
+        {
+            showAppointmentError(
+                "Please select at least one symptom."
+            );
+
+            return;
+        }
+
+
+        var symptomIds = [];
+
+
+        for (
+            var i = 0;
+            i < selectedSymptoms.length;
+            i++
+        )
+        {
+            symptomIds.push(
+                selectedSymptoms[i].value
+            );
+        }
+
+
+        if (
+            symptomIds.indexOf("7") != -1
+        )
+        {
+            if (
+                symptomIds.length > 1
+            )
+            {
+                showAppointmentError(
+                    "Please select either symptoms or None of these."
+                );
+
+                return;
+            }
+
+
+            showAppointmentError(
+                "Please select one of the available symptoms."
+            );
+
+            return;
+        }
+
+
+        /*
+         * Send symptoms to Java.
+         *
+         * Java now accepts:
+         *
+         * 1 2 3
+         *
+         * or
+         *
+         * 1,2,3
+         */
+
+
+        fetch(
+            JAVA_SERVER +
+            "/symptoms",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "text/plain"
+                },
+
+                body:
+                    symptomIds.join(" ")
+            }
+        )
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (
+                data == null ||
+                data.length == 0
+            )
+            {
+                showAppointmentError(
+                    "No doctor could be found for the selected symptoms."
+                );
+
+                return;
+            }
+
+
+            var bestMatch =
+                data[0];
+
+
+            document.getElementById(
+                "recommendedSpecialist"
+            ).innerText =
+                bestMatch.specialist;
+
+
+            document.getElementById(
+                "recommendedDoctor"
+            ).innerText =
+                bestMatch.doctor;
+
+
+            document.getElementById(
+                "matchedSymptoms"
+            ).innerText =
+                bestMatch.matches;
+
+
+            document.getElementById(
+                "recommendation"
+            ).style.display =
+                "block";
+
+
+            window.selectedDoctor =
+                bestMatch;
+
+
+            loadDoctorSlots(
+                bestMatch.doctorId
+            );
+        })
+        .catch(function(error)
+        {
+            console.log(error);
+
+
+            showAppointmentError(
+                "Could not connect to the Java server. Make sure MedicalServer is running."
+            );
+        });
+    }
+
+
+    /* =====================================================
+       LOAD DOCTOR SLOTS
+       ===================================================== */
+
+    function loadDoctorSlots(
+        doctorId
+    )
+    {
+        fetch(
+            JAVA_SERVER +
+            "/slots",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "text/plain"
+                },
+
+                body:
+                    String(doctorId)
+            }
+        )
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(slots)
+        {
+            var slotSelect =
+                document.getElementById(
+                    "slotSelect"
+                );
+
+
+            slotSelect.innerHTML =
+                '<option value="">Select available slot</option>';
+
+
+            if (
+                slots == null ||
+                slots.length == 0
+            )
+            {
+                document.getElementById(
+                    "slotSection"
+                ).classList.remove(
+                    "hidden"
+                );
+
+
+                showAppointmentError(
+                    "No available slots are currently available for this doctor."
+                );
+
+                return;
+            }
+
+
+            for (
+                var i = 0;
+                i < slots.length;
+                i++
+            )
+            {
+                var option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    slots[i].slotId;
+
+
+                option.text =
+                    slots[i].slotDate +
+                    " - " +
+                    slots[i].slotTime;
+
+
+                option.setAttribute(
+                    "data-date",
+                    slots[i].slotDate
+                );
+
+
+                option.setAttribute(
+                    "data-time",
+                    slots[i].slotTime
+                );
+
+
+                slotSelect.appendChild(
+                    option
+                );
+            }
+
+
+            document.getElementById(
+                "slotSection"
+            ).classList.remove(
+                "hidden"
+            );
+        })
+        .catch(function(error)
+        {
+            console.log(error);
+
+
+            showAppointmentError(
+                "Could not load available appointment slots."
+            );
+        });
+    }
+
+
+    /* =====================================================
+       BOOK APPOINTMENT
+       ===================================================== */
+
+    function bookAppointment()
+    {
+        clearAppointmentError();
+
+        hideBookingSuccess();
+
+
+        var patient =
+            JSON.parse(
+                localStorage.getItem(
+                    "loggedInPatient"
+                )
+            );
+
+
+        if (
+            patient == null
+        )
+        {
+            showAppointmentError(
+                "Please login before booking an appointment."
+            );
+
+            showPage(
+                "loginPage"
+            );
+
+            return;
+        }
+
+
+        if (
+            patient.patient_id == null
+        )
+        {
+            showAppointmentError(
+                "This patient is not connected to the database."
+            );
+
+            return;
+        }
+
+
+        if (
+            window.selectedDoctor == null
+        )
+        {
+            showAppointmentError(
+                "Please find a doctor first."
+            );
+
+            return;
+        }
+
+
+        var slotSelect =
+            document.getElementById(
+                "slotSelect"
+            );
+
+
+        if (
+            slotSelect.value == ""
+        )
+        {
+            showAppointmentError(
+                "Please select an available appointment slot."
+            );
+
+            return;
+        }
+
+
+        var selectedOption =
+            slotSelect.options[
+                slotSelect.selectedIndex
+            ];
+
+
+        var slotId =
+            slotSelect.value;
+
+
+        var appointmentDate =
+            selectedOption.getAttribute(
+                "data-date"
+            );
+
+
+        var appointmentTime =
+            selectedOption.getAttribute(
+                "data-time"
+            );
+
+
+        var doctorId =
+            window.selectedDoctor.doctorId;
+
+
+        /*
+         * Format expected by Java:
+         *
+         * patientId|doctorId|slotId
+         */
+
+
+        var bookingData =
+            patient.patient_id +
+            "|" +
+            doctorId +
+            "|" +
+            slotId;
+
+
+        fetch(
+            JAVA_SERVER +
+            "/bookAppointment",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "text/plain"
+                },
+
+                body:
+                    bookingData
+            }
+        )
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(result)
+        {
+            if (
+                result.success != true
+            )
+            {
+                showAppointmentError(
+                    result.error ||
+                    result.message ||
+                    "Appointment could not be booked."
+                );
+
+                return;
+            }
+
+
+            var selectedSymptoms =
+                document.querySelectorAll(
+                    'input[name="symptom"]:checked'
+                );
+
+
+            var symptoms = [];
+
+
+            for (
+                var i = 0;
+                i < selectedSymptoms.length;
+                i++
+            )
+            {
+                symptoms.push(
+                    selectedSymptoms[i]
+                        .parentElement
+                        .innerText
+                        .trim()
+                );
+            }
+
+
+            var appointment = {
+
+                patientId:
+                    patient.patient_id,
+
+                patientName:
+                    patient.name,
+
+                doctorId:
+                    doctorId,
+
+                doctor:
+                    window.selectedDoctor.doctor,
+
+                specialist:
+                    window.selectedDoctor.specialist,
+
+                matches:
+                    window.selectedDoctor.matches,
+
+                date:
+                    appointmentDate,
+
+                time:
+                    appointmentTime,
+
+                symptoms:
+                    symptoms,
+
+                status:
+                    "Booked",
+
+                receiptNumber:
+                    result.receiptNumber
+            };
+
+
+            localStorage.setItem(
+                "latestAppointment",
+                JSON.stringify(
+                    appointment
+                )
+            );
+
+
+            document.getElementById(
+                "successDoctor"
+            ).innerText =
+                appointment.doctor;
+
+
+            document.getElementById(
+                "successSpecialist"
+            ).innerText =
+                appointment.specialist;
+
+
+            document.getElementById(
+                "successDate"
+            ).innerText =
+                appointment.date;
+
+
+            document.getElementById(
+                "successTime"
+            ).innerText =
+                appointment.time;
+
+
+            document.getElementById(
+                "successReceipt"
+            ).innerText =
+                appointment.receiptNumber;
+
+
+            document.getElementById(
+                "bookingSuccess"
+            ).style.display =
+                "block";
+
+
+            selectedOption.disabled =
+                true;
+
+
+            alert(
+                "Appointment booked successfully!"
+            );
+        })
+        .catch(function(error)
+        {
+            console.log(error);
+
+
+            showAppointmentError(
+                "Could not connect to the Java booking server."
+            );
+        });
+    }
+
+
+    /* =====================================================
+       MY APPOINTMENT
+       ===================================================== */
+
+    function showMyAppointment()
+    {
+        var patient =
+            JSON.parse(
+                localStorage.getItem(
+                    "loggedInPatient"
+                )
+            );
+
+
+        var box =
+            document.getElementById(
+                "myAppointment"
+            );
+
+
+        if (
+            patient == null
+        )
+        {
+            box.innerText =
+                "Please login first.";
+
+            box.style.display =
+                "block";
+
+            return;
+        }
+
+
+        if (
+            patient.patient_id == null
+        )
+        {
+            box.innerText =
+                "This patient is not connected to the database.";
+
+            box.style.display =
+                "block";
+
+            return;
+        }
+
+
+        box.innerText =
+            "Loading appointment details...";
+
+        box.style.display =
+            "block";
+
+
+        /*
+         * Send patient ID to Java.
+         *
+         * Java receives:
+         *
+         * patientId
+         */
+
+
+        fetch(
+            JAVA_SERVER +
+            "/myAppointment",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "text/plain"
+                },
+
+                body:
+                    String(
+                        patient.patient_id
+                    )
+            }
+        )
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (
+                data == null ||
+                data.length == 0
+            )
+            {
+                box.innerText =
+                    "No appointment found.";
+
+                box.style.display =
+                    "block";
+
+                return;
+            }
+
+
+            /*
+             * Java returns appointments
+             * directly from MySQL.
+             *
+             * The first appointment is
+             * the latest appointment.
+             */
+
+
+            var appointment =
+                data[0];
+
+
+            box.innerHTML =
+
+                "<h3>My Appointment</h3>" +
+
+                "<p><strong>Appointment ID:</strong> " +
+                appointment.appointmentId +
+                "</p>" +
+
+                "<p><strong>Doctor:</strong> " +
+                appointment.doctor +
+                "</p>" +
+
+                "<p><strong>Specialist:</strong> " +
+                appointment.specialist +
+                "</p>" +
+
+                "<p><strong>Date:</strong> " +
+                appointment.date +
+                "</p>" +
+
+                "<p><strong>Time:</strong> " +
+                appointment.time +
+                "</p>" +
+
+                "<p><strong>Status:</strong> " +
+                appointment.status +
+                "</p>" +
+
+                "<p><strong>Receipt:</strong> " +
+                appointment.receiptNumber +
+                "</p>";
+
+
+            box.style.display =
+                "block";
+        })
+        .catch(function(error)
+        {
+            console.log(error);
+
+            box.innerText =
+                "Could not connect to the Java server. Make sure MedicalServer is running.";
+
+            box.style.display =
+                "block";
+        });
+    }
+
+
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
+
+    function logoutPatient()
+    {
+        localStorage.removeItem(
+            "loggedInPatient"
+        );
+
+
+        window.selectedDoctor =
+            null;
+
+
+        alert(
+            "Logged out successfully."
+        );
+
+
+        showPage(
+            "loginPage"
+        );
+    }
+
+
+    /* =====================================================
+       ERROR HANDLING
+       ===================================================== */
+
+    function showAppointmentError(
+        message
+    )
+    {
+        var error =
+            document.getElementById(
+                "appointmentError"
+            );
+
+
+        error.innerText =
+            message;
+
+
+        error.style.display =
+            "block";
+    }
+
+
+    function clearAppointmentError()
+    {
+        var error =
+            document.getElementById(
+                "appointmentError"
+            );
+
+
+        error.innerText =
+            "";
+
+
+        error.style.display =
+            "none";
+    }
+
+
+    function hideBookingSuccess()
+    {
+        document.getElementById(
+            "bookingSuccess"
+        ).style.display =
+            "none";
+    }
+
+
+    /* =====================================================
+       PAGE LOAD
+       ===================================================== */
+
+    window.onload =
+        function()
+        {
+            var patient =
+                JSON.parse(
+                    localStorage.getItem(
+                        "loggedInPatient"
+                    )
+                );
+
+
+            if (
+                patient != null
+            )
+            {
+                updatePatientInformation();
+
+                showPage(
+                    "dashboardPage"
+                );
+            }
+            else
+            {
+                showPage(
+                    "loginPage"
+                );
+            }
+        };
+
+</script>
+
+</body>
+</html>
